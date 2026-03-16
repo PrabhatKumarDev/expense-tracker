@@ -7,7 +7,8 @@ import TrackerList from "../components/TrackerList";
 import CreateTrackerForm from "../components/CreateTrackerForm";
 import CreateExpenseForm from "../components/CreateExpenseForm";
 import ExpenseList from "../components/ExpenseList";
-import { deleteExpense } from "../api/expenseApi";
+import { deleteExpense,updateExpense } from "../api/expenseApi";
+import EditExpenseModal from "../components/EditExpenseModal";
 import MerchantAnalytics from "../components/MerchantAnalytics";
 import Insights from "../components/Insights";
 import MonthlyChart from "../components/MonthlyChart";
@@ -38,6 +39,8 @@ function DashboardPage() {
   const [expensesLoading, setExpensesLoading] = useState(false);
   const [error, setError] = useState("");
   const [filteredExpenses, setFilteredExpenses] = useState([]);
+  const [editingExpense, setEditingExpense] = useState(null);
+const [editLoading, setEditLoading] = useState(false);
 
   const handleLogout = () => {
     clearAuthData();
@@ -63,6 +66,32 @@ function DashboardPage() {
     setActiveTracker(tracker);
     fetchExpensesForTracker(tracker._id);
   };
+
+  const handleEditExpense = (expense) => {
+  setEditingExpense(expense);
+};
+
+const handleSaveExpense = async (id, formData) => {
+  try {
+    setEditLoading(true);
+    setError("");
+
+    const data = await updateExpense(id, formData);
+
+    setExpenses((prev) =>
+      prev.map((expense) =>
+        expense._id === id ? data.expense : expense
+      )
+    );
+
+    return true;
+  } catch (err) {
+    setError(err.response?.data?.message || "Failed to update expense");
+    return false;
+  } finally {
+    setEditLoading(false);
+  }
+};
 
   const handleDeleteExpense = async (id) => {
     try {
@@ -269,6 +298,7 @@ function DashboardPage() {
               loading={expensesLoading}
               activeTracker={activeTracker}
               onDeleteExpense={handleDeleteExpense}
+              onEditExpense={handleEditExpense}
             />
             <div className="grid gap-6 lg:grid-cols-2 mt-6">
               <MonthlyChart expenses={expenses} />
@@ -298,6 +328,13 @@ function DashboardPage() {
           </div>
         </div>
       </div>
+      <EditExpenseModal
+  expense={editingExpense}
+  isOpen={!!editingExpense}
+  onClose={() => setEditingExpense(null)}
+  onSave={handleSaveExpense}
+  loading={editLoading}
+/>
     </div>
   );
 }

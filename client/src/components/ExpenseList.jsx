@@ -1,5 +1,5 @@
 import { deleteExpense } from "../api/expenseApi";
-function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense }) {
+function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditExpense }) {
   if (!activeTracker) {
     return (
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
@@ -58,17 +58,24 @@ function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense }) {
               </div>
 
               <div className="text-left sm:text-right">
-                <p className="text-xl font-semibold text-white">
-                  ₹{expense.amount}
-                </p>
+  <p className="text-xl font-semibold text-white">₹{expense.amount}</p>
 
-                <button
-                  onClick={() => onDeleteExpense(expense._id)}
-                  className="mt-2 text-xs text-red-400 hover:text-red-300"
-                >
-                  Delete
-                </button>
-              </div>
+  <div className="mt-2 flex gap-3 sm:justify-end">
+    <button
+      onClick={() => onEditExpense(expense)}
+      className="text-xs text-violet-400 hover:text-violet-300"
+    >
+      Edit
+    </button>
+
+    <button
+      onClick={() => onDeleteExpense(expense._id)}
+      className="text-xs text-red-400 hover:text-red-300"
+    >
+      Delete
+    </button>
+  </div>
+</div>
             </div>
           </div>
         ))}
