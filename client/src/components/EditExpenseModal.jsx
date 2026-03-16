@@ -56,9 +56,9 @@ function EditExpenseModal({ expense, isOpen, onClose, onSave, loading }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
-      <div className="w-full max-w-lg rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="w-full max-w-lg rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xl font-semibold text-white">Edit Expense</h2>
+          <h2 className="text-xl font-semibold ">Edit Expense</h2>
           <button
             onClick={onClose}
             className="text-zinc-400 hover:text-white"
@@ -74,7 +74,7 @@ function EditExpenseModal({ expense, isOpen, onClose, onSave, loading }) {
             value={formData.merchant}
             onChange={handleChange}
             placeholder="Merchant"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3  outline-none focus:border-violet-500"
           />
 
           <input
@@ -83,14 +83,14 @@ function EditExpenseModal({ expense, isOpen, onClose, onSave, loading }) {
             value={formData.amount}
             onChange={handleChange}
             placeholder="Amount"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3  outline-none focus:border-violet-500"
           />
 
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3  outline-none focus:border-violet-500"
           >
             <option value="">Select category</option>
             {categories.map((category) => (
@@ -104,7 +104,7 @@ function EditExpenseModal({ expense, isOpen, onClose, onSave, loading }) {
             name="paymentMethod"
             value={formData.paymentMethod}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3  outline-none focus:border-violet-500"
           >
             {paymentMethods.map((method) => (
               <option key={method} value={method}>
@@ -118,7 +118,7 @@ function EditExpenseModal({ expense, isOpen, onClose, onSave, loading }) {
             name="date"
             value={formData.date}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3  outline-none focus:border-violet-500"
           />
 
           <textarea
@@ -127,14 +127,14 @@ function EditExpenseModal({ expense, isOpen, onClose, onSave, loading }) {
             value={formData.note}
             onChange={handleChange}
             placeholder="Note"
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 text-white outline-none focus:border-violet-500 resize-none"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3  outline-none focus:border-violet-500 resize-none"
           />
 
           <div className="flex gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-xl border border-zinc-700 px-4 py-3 text-white"
+              className="flex-1 rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 "
             >
               Cancel
             </button>

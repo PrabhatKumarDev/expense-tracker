@@ -38,8 +38,8 @@ function CreateTrackerForm({ onCreateTracker, loading }) {
   };
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-      <h2 className="text-xl font-semibold text-white mb-4">Create Tracker</h2>
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
+      <h2 className="text-xl font-semibold  mb-4">Create Tracker</h2>
 
       {error && (
         <div className="mb-4 rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
@@ -49,36 +49,36 @@ function CreateTrackerForm({ onCreateTracker, loading }) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Name</label>
+          <label className="block mb-2 text-sm ">Name</label>
           <input
             type="text"
             name="name"
             placeholder="e.g. Office"
             value={formData.name}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           />
         </div>
 
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Description</label>
+          <label className="block mb-2 text-sm ">Description</label>
           <input
             type="text"
             name="description"
             placeholder="Short description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           />
         </div>
 
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Color</label>
+          <label className="block mb-2 text-sm ">Color</label>
           <select
             name="color"
             value={formData.color}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           >
             <option value="violet">Violet</option>
             <option value="blue">Blue</option>
@@ -89,12 +89,12 @@ function CreateTrackerForm({ onCreateTracker, loading }) {
         </div>
 
         <div>
-  <label className="block mb-2 text-sm text-zinc-300">Icon</label>
+  <label className="block mb-2 text-sm ">Icon</label>
   <select
     name="icon"
     value={formData.icon}
     onChange={handleChange}
-    className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+    className="w-full rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
   >
     <option value="wallet">Wallet</option>
     <option value="home">Home</option>

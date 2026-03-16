@@ -26,7 +26,7 @@ function MerchantAnalytics({ expenses }) {
 
   if (!merchantData.length) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
         <h2 className="text-xl font-semibold mb-2">Top Merchants</h2>
         <p className="text-zinc-400">No merchant data yet.</p>
       </div>
@@ -34,7 +34,7 @@ function MerchantAnalytics({ expenses }) {
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
       <h2 className="text-xl font-semibold mb-4">Top Merchants</h2>
 
       <div className="space-y-4">
@@ -44,13 +44,13 @@ function MerchantAnalytics({ expenses }) {
             className="flex items-center justify-between border-b border-zinc-800 pb-3"
           >
             <div>
-              <p className="font-medium text-white">{merchant.name}</p>
-              <p className="text-xs text-zinc-400">
+              <p className="font-medium">{merchant.name}</p>
+              <p className="text text-zinc-400">
                 {merchant.count} transaction(s)
               </p>
             </div>
 
-            <p className="font-semibold text-white">
+            <p className="font-semibold">
               ₹{merchant.total}
             </p>
           </div>

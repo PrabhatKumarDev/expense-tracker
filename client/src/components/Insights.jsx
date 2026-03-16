@@ -91,7 +91,7 @@ function Insights({ expenses }) {
 
   if (!insights.length) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
         <h2 className="text-xl font-semibold mb-2">Insights</h2>
         <p className="text-zinc-400">Not enough data yet.</p>
       </div>
@@ -99,12 +99,12 @@ function Insights({ expenses }) {
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
       <h2 className="text-xl font-semibold mb-4">Insights</h2>
 
       <ul className="space-y-3">
         {insights.map((insight, index) => (
-          <li key={index} className="text-zinc-300">
+          <li key={index} className="">
             💡 {insight}
           </li>
         ))}

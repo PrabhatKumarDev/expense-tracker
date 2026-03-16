@@ -2,7 +2,7 @@ import { deleteExpense } from "../api/expenseApi";
 function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditExpense }) {
   if (!activeTracker) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
         <p className="text-zinc-400">Select a tracker to view expenses.</p>
       </div>
     );
@@ -10,7 +10,7 @@ function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditE
 
   if (loading) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
         <p className="text-zinc-400">Loading expenses...</p>
       </div>
     );
@@ -18,7 +18,7 @@ function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditE
 
   if (!expenses.length) {
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
         <h2 className="text-xl font-semibold mb-2">Expenses</h2>
         <p className="text-zinc-400">
           No expenses yet for{" "}
@@ -29,7 +29,7 @@ function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditE
   }
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
       <div className="flex items-center justify-between gap-4 mb-5">
         <h2 className="text-xl font-semibold">Expenses</h2>
         <span className="text-sm text-zinc-400">{expenses.length} item(s)</span>
@@ -39,14 +39,14 @@ function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditE
         {expenses.map((expense) => (
           <div
             key={expense._id}
-            className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4"
+            className="rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-4"
           >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <h3 className="text-lg font-medium text-white">
+                <h3 className="text-lg font-medium ">
                   {expense.merchant}
                 </h3>
-                <p className="text-sm text-zinc-400 mt-1">
+                <p className="text-sm  mt-1">
                   {expense.category} • {expense.paymentMethod}
                 </p>
                 <p className="text-sm text-zinc-500 mt-1">
@@ -58,7 +58,7 @@ function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditE
               </div>
 
               <div className="text-left sm:text-right">
-  <p className="text-xl font-semibold text-white">₹{expense.amount}</p>
+  <p className="text-xl font-semibold ">₹{expense.amount}</p>
 
   <div className="mt-2 flex gap-3 sm:justify-end">
     <button

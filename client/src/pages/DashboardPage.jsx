@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createTracker, getTrackers } from "../api/trackerApi";
-import { createExpense, getExpenses } from "../api/expenseApi";
+import {
+  createExpense,
+  getExpenses,
+  deleteExpense,
+  updateExpense,
+} from "../api/expenseApi";
 import { getCurrentUser } from "../api/authApi";
 import TrackerList from "../components/TrackerList";
 import CreateTrackerForm from "../components/CreateTrackerForm";
 import CreateExpenseForm from "../components/CreateExpenseForm";
 import ExpenseList from "../components/ExpenseList";
-import { deleteExpense,updateExpense } from "../api/expenseApi";
 import EditExpenseModal from "../components/EditExpenseModal";
 import MerchantAnalytics from "../components/MerchantAnalytics";
 import Insights from "../components/Insights";
@@ -28,7 +32,7 @@ import {
   setActiveTracker,
 } from "../utils/trackerStorage";
 
-function DashboardPage({theme,setTheme}) {
+function DashboardPage({ theme, setTheme }) {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(getUser());
@@ -42,7 +46,7 @@ function DashboardPage({theme,setTheme}) {
   const [error, setError] = useState("");
   const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [editingExpense, setEditingExpense] = useState(null);
-const [editLoading, setEditLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
 
   const handleLogout = () => {
     clearAuthData();
@@ -70,35 +74,32 @@ const [editLoading, setEditLoading] = useState(false);
   };
 
   const handleEditExpense = (expense) => {
-  setEditingExpense(expense);
-};
+    setEditingExpense(expense);
+  };
 
-const handleSaveExpense = async (id, formData) => {
-  try {
-    setEditLoading(true);
-    setError("");
+  const handleSaveExpense = async (id, formData) => {
+    try {
+      setEditLoading(true);
+      setError("");
 
-    const data = await updateExpense(id, formData);
+      const data = await updateExpense(id, formData);
 
-    setExpenses((prev) =>
-      prev.map((expense) =>
-        expense._id === id ? data.expense : expense
-      )
-    );
+      setExpenses((prev) =>
+        prev.map((expense) => (expense._id === id ? data.expense : expense))
+      );
 
-    return true;
-  } catch (err) {
-    setError(err.response?.data?.message || "Failed to update expense");
-    return false;
-  } finally {
-    setEditLoading(false);
-  }
-};
+      return true;
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update expense");
+      return false;
+    } finally {
+      setEditLoading(false);
+    }
+  };
 
   const handleDeleteExpense = async (id) => {
     try {
       await deleteExpense(id);
-
       setExpenses((prev) => prev.filter((exp) => exp._id !== id));
     } catch (err) {
       setError(err.response?.data?.message || "Failed to delete expense");
@@ -142,23 +143,23 @@ const handleSaveExpense = async (id, formData) => {
       setExpenseLoading(false);
     }
   };
+
   const handleFilter = ({ search, category }) => {
-  let filtered = [...expenses];
+    let filtered = [...expenses];
 
-  if (search) {
-    filtered = filtered.filter((expense) =>
-      expense.merchant.toLowerCase().includes(search.toLowerCase())
-    );
-  }
+    if (search) {
+      filtered = filtered.filter((expense) =>
+        expense.merchant.toLowerCase().includes(search.toLowerCase())
+      );
+    }
 
-  if (category) {
-    filtered = filtered.filter(
-      (expense) => expense.category === category
-    );
-  }
+    if (category) {
+      filtered = filtered.filter((expense) => expense.category === category);
+    }
 
-  setFilteredExpenses(filtered);
-};
+    setFilteredExpenses(filtered);
+  };
+
   useEffect(() => {
     setFilteredExpenses(expenses);
   }, [expenses]);
@@ -192,7 +193,7 @@ const handleSaveExpense = async (id, formData) => {
         if (storedTracker) {
           trackerToUse =
             trackerData.trackers.find(
-              (tracker) => tracker._id === storedTracker._id,
+              (tracker) => tracker._id === storedTracker._id
             ) || null;
         }
 
@@ -222,36 +223,38 @@ const handleSaveExpense = async (id, formData) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center">
-        <p className="text-zinc-400">Loading dashboard...</p>
+      <div className="min-h-screen bg-zinc-100 text-zinc-900 dark:bg-zinc-950 dark:text-white flex items-center justify-center">
+        <p className="text-zinc-600 dark:text-zinc-400">Loading dashboard...</p>
       </div>
     );
   }
+
   const totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0);
   const totalTransactions = expenses.length;
+
   return (
-    <div className="min-h-screen bg-zinc-950 text-white px-6 py-10">
+    <div className="min-h-screen bg-zinc-100 text-zinc-900 dark:bg-zinc-950 dark:text-white px-6 py-10 transition-colors duration-300">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold">Dashboard</h1>
-            <p className="text-zinc-400 mt-1">
+            <p className="mt-1 text-zinc-600 dark:text-zinc-400">
               Welcome back, {user?.name || "User"}
             </p>
           </div>
 
           <div className="flex gap-3">
-  <ThemeToggle
-    theme={theme}
-    onToggle={() => setTheme(theme === "dark" ? "light" : "dark")}
-  />
-  <button
-    onClick={handleLogout}
-    className="rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-2 hover:border-violet-500 transition"
-  >
-    Logout
-  </button>
-</div>
+            <ThemeToggle
+              theme={theme}
+              onToggle={() => setTheme(theme === "dark" ? "light" : "dark")}
+            />
+            <button
+              onClick={handleLogout}
+              className="rounded-xl border border-zinc-300 bg-white px-4 py-2 text-zinc-900 transition hover:border-violet-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {error && (
@@ -262,43 +265,57 @@ const handleSaveExpense = async (id, formData) => {
 
         <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-6">
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-              <h2 className="text-xl font-semibold mb-2">Active Tracker</h2>
-              <p className="text-zinc-400">
-                Color: {activeTracker?.color || "-"} • Icon: {activeTracker?.icon || "-"}
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+              <h2 className="mb-2 text-xl font-semibold">Active Tracker</h2>
+              <p className="text-zinc-600 dark:text-zinc-400">
+                {activeTracker
+                  ? `Currently viewing: ${activeTracker.name}`
+                  : "Select a tracker to continue"}
+              </p>
+              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
+                Color: {activeTracker?.color || "-"} • Icon:{" "}
+                {activeTracker?.icon || "-"}
               </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6">
-              <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
-                <p className="text-sm text-zinc-400">Total Spent</p>
-                <h3 className="text-2xl font-semibold mt-1">₹{totalAmount}</h3>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Total Spent
+                </p>
+                <h3 className="mt-1 text-2xl font-semibold">₹{totalAmount}</h3>
               </div>
 
-              <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
-                <p className="text-sm text-zinc-400">Transactions</p>
-                <h3 className="text-2xl font-semibold mt-1">
+              <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Transactions
+                </p>
+                <h3 className="mt-1 text-2xl font-semibold">
                   {totalTransactions}
                 </h3>
               </div>
 
-              <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
-                <p className="text-sm text-zinc-400">Current Tracker</p>
-                <h3 className="text-2xl font-semibold mt-1">
+              <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Current Tracker
+                </p>
+                <h3 className="mt-1 text-2xl font-semibold">
                   {activeTracker?.name || "-"}
                 </h3>
               </div>
             </div>
 
             <div>
-              <h2 className="text-2xl font-semibold mb-4">Your Trackers</h2>
+              <h2 className="mb-4 text-2xl font-semibold">Your Trackers</h2>
               <TrackerList
                 trackers={trackers}
                 activeTracker={activeTracker}
                 onSelectTracker={handleSelectTracker}
               />
             </div>
-             <ExpenseFilters onFilter={handleFilter} />
+
+            <ExpenseFilters onFilter={handleFilter} />
+
             <ExpenseList
               expenses={filteredExpenses}
               loading={expensesLoading}
@@ -306,17 +323,15 @@ const handleSaveExpense = async (id, formData) => {
               onDeleteExpense={handleDeleteExpense}
               onEditExpense={handleEditExpense}
             />
-            <div className="grid gap-6 lg:grid-cols-2 mt-6">
+
+            <div className="mt-6 grid gap-6 lg:grid-cols-2">
               <MonthlyChart expenses={expenses} />
               <CategoryChart expenses={expenses} />
             </div>
-            <div>
-              <div className="mt-6">
-                <MerchantAnalytics expenses={expenses} />
-              </div>
-              <div className="mt-6">
-                <Insights expenses={expenses} />
-              </div>
+
+            <div className="space-y-6">
+              <MerchantAnalytics expenses={expenses} />
+              <Insights expenses={expenses} />
             </div>
           </div>
 
@@ -331,18 +346,23 @@ const handleSaveExpense = async (id, formData) => {
               onCreateExpense={handleCreateExpense}
               loading={expenseLoading}
             />
-            <ExportButtons expenses={filteredExpenses} activeTracker={activeTracker} />
+
+
+            <ExportButtons
+              expenses={filteredExpenses}
+              activeTracker={activeTracker}
+            />
           </div>
-          
         </div>
       </div>
+
       <EditExpenseModal
-  expense={editingExpense}
-  isOpen={!!editingExpense}
-  onClose={() => setEditingExpense(null)}
-  onSave={handleSaveExpense}
-  loading={editLoading}
-/>
+        expense={editingExpense}
+        isOpen={!!editingExpense}
+        onClose={() => setEditingExpense(null)}
+        onSave={handleSaveExpense}
+        loading={editLoading}
+      />
     </div>
   );
 }

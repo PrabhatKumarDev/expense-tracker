@@ -3,7 +3,7 @@ import { exportExpensesToPdf } from "../utils/exportPdf";
 
 function ExportButtons({ expenses, activeTracker }) {
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
       <h2 className="text-xl font-semibold mb-4">Export Report</h2>
 
       <div className="grid gap-3 sm:grid-cols-2">

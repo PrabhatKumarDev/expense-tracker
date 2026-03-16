@@ -25,7 +25,7 @@ function ExpenseFilters({ onFilter }) {
   };
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
       <h2 className="text-xl font-semibold mb-4">Filters</h2>
 
       <div className="space-y-4">
@@ -34,13 +34,13 @@ function ExpenseFilters({ onFilter }) {
           placeholder="Search merchant..."
           value={search}
           onChange={handleSearchChange}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+          className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
         />
 
         <select
           value={category}
           onChange={handleCategoryChange}
-          className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+          className="w-full rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
         >
           <option value="">All Categories</option>
           <option>Food</option>

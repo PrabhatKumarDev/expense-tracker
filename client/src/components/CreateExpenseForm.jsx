@@ -71,8 +71,8 @@ function CreateExpenseForm({ activeTracker, onCreateExpense, loading }) {
   };
 
   return (
-    <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-      <h2 className="text-xl font-semibold text-white mb-2">Add Expense</h2>
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 p-6">
+      <h2 className="text-xl font-semibold mb-2">Add Expense</h2>
       <p className="text-sm text-zinc-400 mb-5">
         {activeTracker ? `Adding to: ${activeTracker.name}` : "Select a tracker first"}
       </p>
@@ -85,36 +85,36 @@ function CreateExpenseForm({ activeTracker, onCreateExpense, loading }) {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Merchant</label>
+          <label className="block mb-2 text-sm ">Merchant</label>
           <input
             type="text"
             name="merchant"
             placeholder="e.g. Spotify"
             value={formData.merchant}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           />
         </div>
 
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Amount</label>
+          <label className="block mb-2 text-sm ">Amount</label>
           <input
             type="number"
             name="amount"
             placeholder="e.g. 199"
             value={formData.amount}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           />
         </div>
 
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Category</label>
+          <label className="block mb-2 text-sm ">Category</label>
           <select
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           >
             <option value="">Select category</option>
             {categories.map((category) => (
@@ -126,12 +126,12 @@ function CreateExpenseForm({ activeTracker, onCreateExpense, loading }) {
         </div>
 
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Payment Method</label>
+          <label className="block mb-2 text-sm ">Payment Method</label>
           <select
             name="paymentMethod"
             value={formData.paymentMethod}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           >
             {paymentMethods.map((method) => (
               <option key={method} value={method}>
@@ -142,25 +142,25 @@ function CreateExpenseForm({ activeTracker, onCreateExpense, loading }) {
         </div>
 
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Date</label>
+          <label className="block mb-2 text-sm ">Date</label>
           <input
             type="date"
             name="date"
             value={formData.date}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+            className="w-full rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500"
           />
         </div>
 
         <div>
-          <label className="block mb-2 text-sm text-zinc-300">Note</label>
+          <label className="block mb-2 text-sm ">Note</label>
           <textarea
             name="note"
             placeholder="Optional note"
             rows="3"
             value={formData.note}
             onChange={handleChange}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500 resize-none"
+            className="w-full rounded-xl border border-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900 px-4 py-3 outline-none focus:border-violet-500 resize-none"
           />
         </div>
 
