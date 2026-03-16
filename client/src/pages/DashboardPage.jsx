@@ -9,8 +9,10 @@ import CreateExpenseForm from "../components/CreateExpenseForm";
 import ExpenseList from "../components/ExpenseList";
 import { deleteExpense } from "../api/expenseApi";
 import MerchantAnalytics from "../components/MerchantAnalytics";
+import Insights from "../components/Insights";
 import MonthlyChart from "../components/MonthlyChart";
 import CategoryChart from "../components/CategoryChart";
+import ExpenseFilters from "../components/ExpenseFilters";
 import {
   clearAuthData,
   getUser,
@@ -35,6 +37,7 @@ function DashboardPage() {
   const [expenseLoading, setExpenseLoading] = useState(false);
   const [expensesLoading, setExpensesLoading] = useState(false);
   const [error, setError] = useState("");
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
 
   const handleLogout = () => {
     clearAuthData();
@@ -108,6 +111,26 @@ function DashboardPage() {
       setExpenseLoading(false);
     }
   };
+  const handleFilter = ({ search, category }) => {
+  let filtered = [...expenses];
+
+  if (search) {
+    filtered = filtered.filter((expense) =>
+      expense.merchant.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  if (category) {
+    filtered = filtered.filter(
+      (expense) => expense.category === category
+    );
+  }
+
+  setFilteredExpenses(filtered);
+};
+  useEffect(() => {
+    setFilteredExpenses(expenses);
+  }, [expenses]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -173,8 +196,8 @@ function DashboardPage() {
       </div>
     );
   }
- const totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0);
-const totalTransactions = expenses.length;
+  const totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const totalTransactions = expenses.length;
   return (
     <div className="min-h-screen bg-zinc-950 text-white px-6 py-10">
       <div className="max-w-7xl mx-auto">
@@ -212,23 +235,25 @@ const totalTransactions = expenses.length;
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6">
-  <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
-    <p className="text-sm text-zinc-400">Total Spent</p>
-    <h3 className="text-2xl font-semibold mt-1">₹{totalAmount}</h3>
-  </div>
+              <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
+                <p className="text-sm text-zinc-400">Total Spent</p>
+                <h3 className="text-2xl font-semibold mt-1">₹{totalAmount}</h3>
+              </div>
 
-  <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
-    <p className="text-sm text-zinc-400">Transactions</p>
-    <h3 className="text-2xl font-semibold mt-1">{totalTransactions}</h3>
-  </div>
+              <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
+                <p className="text-sm text-zinc-400">Transactions</p>
+                <h3 className="text-2xl font-semibold mt-1">
+                  {totalTransactions}
+                </h3>
+              </div>
 
-  <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
-    <p className="text-sm text-zinc-400">Current Tracker</p>
-    <h3 className="text-2xl font-semibold mt-1">
-      {activeTracker?.name || "-"}
-    </h3>
-  </div>
-</div>
+              <div className="rounded-xl bg-zinc-900 border border-zinc-800 p-5">
+                <p className="text-sm text-zinc-400">Current Tracker</p>
+                <h3 className="text-2xl font-semibold mt-1">
+                  {activeTracker?.name || "-"}
+                </h3>
+              </div>
+            </div>
 
             <div>
               <h2 className="text-2xl font-semibold mb-4">Your Trackers</h2>
@@ -238,24 +263,26 @@ const totalTransactions = expenses.length;
                 onSelectTracker={handleSelectTracker}
               />
             </div>
-
+             <ExpenseFilters onFilter={handleFilter} />
             <ExpenseList
-              expenses={expenses}
+              expenses={filteredExpenses}
               loading={expensesLoading}
               activeTracker={activeTracker}
               onDeleteExpense={handleDeleteExpense}
             />
             <div className="grid gap-6 lg:grid-cols-2 mt-6">
-  <MonthlyChart expenses={expenses} />
-  <CategoryChart expenses={expenses} />
-</div>
-
-<div className="mt-6">
-  <MerchantAnalytics expenses={expenses} />
-</div>
-
+              <MonthlyChart expenses={expenses} />
+              <CategoryChart expenses={expenses} />
+            </div>
+            <div>
+              <div className="mt-6">
+                <MerchantAnalytics expenses={expenses} />
+              </div>
+              <div className="mt-6">
+                <Insights expenses={expenses} />
+              </div>
+            </div>
           </div>
-          
 
           <div className="space-y-6">
             <CreateTrackerForm
