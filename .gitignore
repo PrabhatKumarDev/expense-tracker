@@ -9,6 +9,10 @@ lerna-debug.log*
 
 .env
 .env.*
+client/.env
+client/.env.*
+server/.env
+server/.env.*
 
 node_modules
 dist
