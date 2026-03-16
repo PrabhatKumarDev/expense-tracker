@@ -265,9 +265,7 @@ const handleSaveExpense = async (id, formData) => {
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
               <h2 className="text-xl font-semibold mb-2">Active Tracker</h2>
               <p className="text-zinc-400">
-                {activeTracker
-                  ? `Currently viewing: ${activeTracker.name}`
-                  : "Select a tracker to continue"}
+                Color: {activeTracker?.color || "-"} • Icon: {activeTracker?.icon || "-"}
               </p>
             </div>
 

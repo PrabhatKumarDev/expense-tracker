@@ -2,10 +2,11 @@ import { useState } from "react";
 
 function CreateTrackerForm({ onCreateTracker, loading }) {
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    color: "violet",
-  });
+  name: "",
+  description: "",
+  color: "violet",
+  icon: "wallet",
+});
 
   const [error, setError] = useState("");
 
@@ -86,6 +87,23 @@ function CreateTrackerForm({ onCreateTracker, loading }) {
             <option value="amber">Amber</option>
           </select>
         </div>
+
+        <div>
+  <label className="block mb-2 text-sm text-zinc-300">Icon</label>
+  <select
+    name="icon"
+    value={formData.icon}
+    onChange={handleChange}
+    className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none focus:border-violet-500"
+  >
+    <option value="wallet">Wallet</option>
+    <option value="home">Home</option>
+    <option value="briefcase">Briefcase</option>
+    <option value="plane">Plane</option>
+    <option value="shopping-cart">Shopping Cart</option>
+    <option value="heart">Heart</option>
+  </select>
+</div>
 
         <button
           type="submit"

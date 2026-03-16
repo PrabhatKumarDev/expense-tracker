@@ -2,7 +2,7 @@ import Tracker from "../models/tracker.model.js";
 
 export const createTracker = async (req, res) => {
   try {
-    const { name, description, color } = req.body;
+    const { name, description, color,icon } = req.body;
 
     if (!name || !name.trim()) {
       return res.status(400).json({
@@ -11,6 +11,7 @@ export const createTracker = async (req, res) => {
     }
 
     const trackerName = name.trim();
+    
 
     const existingTracker = await Tracker.findOne({
       user: req.user._id,
@@ -28,6 +29,7 @@ export const createTracker = async (req, res) => {
       name: trackerName,
       description: description?.trim() || "",
       color: color?.trim() || "violet",
+      icon: icon?.trim() || "wallet",
       isDefault: false,
     });
 
