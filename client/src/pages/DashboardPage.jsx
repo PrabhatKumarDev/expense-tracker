@@ -20,6 +20,7 @@ import CategoryChart from "../components/CategoryChart";
 import ExpenseFilters from "../components/ExpenseFilters";
 import ThemeToggle from "../components/ThemeToggle";
 import ExportButtons from "../components/ExportButtons";
+import BudgetCard from "../components/BudgetCard";
 import {
   clearAuthData,
   getUser,
@@ -263,97 +264,149 @@ function DashboardPage({ theme, setTheme }) {
           </div>
         )}
 
-        <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
-              <h2 className="mb-2 text-xl font-semibold">Active Tracker</h2>
-              <p className="text-zinc-600 dark:text-zinc-400">
-                {activeTracker
-                  ? `Currently viewing: ${activeTracker.name}`
-                  : "Select a tracker to continue"}
-              </p>
-              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
-                Color: {activeTracker?.color || "-"} • Icon:{" "}
-                {activeTracker?.icon || "-"}
-              </p>
-            </div>
+       <div className="xl:hidden space-y-6">
+  <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+    <h2 className="mb-2 text-xl font-semibold">Active Tracker</h2>
+    <p className="text-zinc-600 dark:text-zinc-400">
+      {activeTracker
+        ? `Currently viewing: ${activeTracker.name}`
+        : "Select a tracker to continue"}
+    </p>
+    <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
+      Color: {activeTracker?.color || "-"} • Icon: {activeTracker?.icon || "-"}
+    </p>
+  </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Total Spent
-                </p>
-                <h3 className="mt-1 text-2xl font-semibold">₹{totalAmount}</h3>
-              </div>
+  <div className="grid gap-4 sm:grid-cols-2">
+    <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+      <p className="text-sm text-zinc-600 dark:text-zinc-400">Total Spent</p>
+      <h3 className="mt-1 text-2xl font-semibold">₹{totalAmount}</h3>
+    </div>
 
-              <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Transactions
-                </p>
-                <h3 className="mt-1 text-2xl font-semibold">
-                  {totalTransactions}
-                </h3>
-              </div>
+    <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+      <p className="text-sm text-zinc-600 dark:text-zinc-400">Transactions</p>
+      <h3 className="mt-1 text-2xl font-semibold">{totalTransactions}</h3>
+    </div>
+  </div>
 
-              <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
-                <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Current Tracker
-                </p>
-                <h3 className="mt-1 text-2xl font-semibold">
-                  {activeTracker?.name || "-"}
-                </h3>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="mb-4 text-2xl font-semibold">Your Trackers</h2>
-              <TrackerList
-                trackers={trackers}
-                activeTracker={activeTracker}
-                onSelectTracker={handleSelectTracker}
-              />
-            </div>
-
-            <ExpenseFilters onFilter={handleFilter} />
-
-            <ExpenseList
-              expenses={filteredExpenses}
-              loading={expensesLoading}
-              activeTracker={activeTracker}
-              onDeleteExpense={handleDeleteExpense}
-              onEditExpense={handleEditExpense}
-            />
-
-            <div className="mt-6 grid gap-6 lg:grid-cols-2">
-              <MonthlyChart expenses={expenses} />
-              <CategoryChart expenses={expenses} />
-            </div>
-
-            <div className="space-y-6">
-              <MerchantAnalytics expenses={expenses} />
-              <Insights expenses={expenses} />
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <CreateTrackerForm
-              onCreateTracker={handleCreateTracker}
-              loading={trackerLoading}
-            />
-
-            <CreateExpenseForm
-              activeTracker={activeTracker}
-              onCreateExpense={handleCreateExpense}
-              loading={expenseLoading}
-            />
+  <BudgetCard activeTracker={activeTracker} expenses={expenses} />
+  <CreateExpenseForm
+    activeTracker={activeTracker}
+    onCreateExpense={handleCreateExpense}
+    loading={expenseLoading}
+  />
 
 
-            <ExportButtons
-              expenses={filteredExpenses}
-              activeTracker={activeTracker}
-            />
-          </div>
-        </div>
+  <CreateTrackerForm
+    onCreateTracker={handleCreateTracker}
+    loading={trackerLoading}
+  />
+
+  <div>
+    <h2 className="mb-4 text-2xl font-semibold">Your Trackers</h2>
+    <TrackerList
+      trackers={trackers}
+      activeTracker={activeTracker}
+      onSelectTracker={handleSelectTracker}
+    />
+  </div>
+
+  <ExpenseFilters onFilter={handleFilter} />
+
+  <ExpenseList
+    expenses={filteredExpenses}
+    loading={expensesLoading}
+    activeTracker={activeTracker}
+    onDeleteExpense={handleDeleteExpense}
+    onEditExpense={handleEditExpense}
+  />
+
+  <div className="grid gap-6 lg:grid-cols-2">
+    <MonthlyChart expenses={expenses} />
+    <CategoryChart expenses={expenses} />
+  </div>
+
+  <MerchantAnalytics expenses={expenses} />
+  <Insights expenses={expenses} />
+  <ExportButtons expenses={filteredExpenses} activeTracker={activeTracker} />
+</div>
+
+<div className="hidden xl:grid xl:grid-cols-[1.2fr_0.8fr] xl:gap-6">
+  <div className="space-y-6">
+    <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">
+      <h2 className="mb-2 text-xl font-semibold">Active Tracker</h2>
+      <p className="text-zinc-600 dark:text-zinc-400">
+        {activeTracker
+          ? `Currently viewing: ${activeTracker.name}`
+          : "Select a tracker to continue"}
+      </p>
+      <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-500">
+        Color: {activeTracker?.color || "-"} • Icon: {activeTracker?.icon || "-"}
+      </p>
+    </div>
+
+    <div className="grid gap-4 lg:grid-cols-3">
+      <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Total Spent</p>
+        <h3 className="mt-1 text-2xl font-semibold">₹{totalAmount}</h3>
+      </div>
+
+      <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Transactions</p>
+        <h3 className="mt-1 text-2xl font-semibold">{totalTransactions}</h3>
+      </div>
+
+      <div className="rounded-xl border border-zinc-200 bg-white p-5 dark:border-zinc-800 dark:bg-zinc-900">
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">Current Tracker</p>
+        <h3 className="mt-1 text-2xl font-semibold">{activeTracker?.name || "-"}</h3>
+      </div>
+    </div>
+
+    <div>
+      <h2 className="mb-4 text-2xl font-semibold">Your Trackers</h2>
+      <TrackerList
+        trackers={trackers}
+        activeTracker={activeTracker}
+        onSelectTracker={handleSelectTracker}
+      />
+    </div>
+
+    <ExpenseFilters onFilter={handleFilter} />
+
+    <ExpenseList
+      expenses={filteredExpenses}
+      loading={expensesLoading}
+      activeTracker={activeTracker}
+      onDeleteExpense={handleDeleteExpense}
+      onEditExpense={handleEditExpense}
+    />
+
+    <div className="grid gap-6 2xl:grid-cols-2">
+      <MonthlyChart expenses={expenses} />
+      <CategoryChart expenses={expenses} />
+    </div>
+
+    <MerchantAnalytics expenses={expenses} />
+    <Insights expenses={expenses} />
+  </div>
+
+  <div className="space-y-6">
+      <BudgetCard activeTracker={activeTracker} expenses={expenses} />
+    <CreateExpenseForm
+      activeTracker={activeTracker}
+      onCreateExpense={handleCreateExpense}
+      loading={expenseLoading}
+    />
+
+
+    <CreateTrackerForm
+      onCreateTracker={handleCreateTracker}
+      loading={trackerLoading}
+    />
+
+    <ExportButtons expenses={filteredExpenses} activeTracker={activeTracker} />
+  </div>
+</div>
       </div>
 
       <EditExpenseModal

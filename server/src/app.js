@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import trackerRoutes from "./routes/tracker.routes.js";
 import expenseRoutes from "./routes/expense.routes.js";
+import budgetRoutes from "./routes/budget.routes.js";
 
 const app = express();
 
@@ -24,5 +25,6 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/trackers", trackerRoutes);
 app.use("/api/expenses", expenseRoutes);
+app.use("/api/budgets", budgetRoutes);
 
 export default app;
