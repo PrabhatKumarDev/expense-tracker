@@ -1,4 +1,5 @@
 import { deleteExpense } from "../api/expenseApi";
+import { Pencil,Trash2 } from "lucide-react";
 function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditExpense }) {
   if (!activeTracker) {
     return (
@@ -65,14 +66,14 @@ function ExpenseList({ expenses, loading, activeTracker, onDeleteExpense,onEditE
       onClick={() => onEditExpense(expense)}
       className="text-xs text-violet-400 hover:text-violet-300"
     >
-      Edit
+      <Pencil />
     </button>
 
     <button
       onClick={() => onDeleteExpense(expense._id)}
       className="text-xs text-red-400 hover:text-red-300"
     >
-      Delete
+      <Trash2 />
     </button>
   </div>
 </div>
