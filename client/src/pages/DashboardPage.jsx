@@ -431,10 +431,12 @@ const handleDeleteTracker = async (tracker) => {
     <div>
       <h2 className="mb-4 text-2xl font-semibold">Your Trackers</h2>
       <TrackerList
-        trackers={trackers}
-        activeTracker={activeTracker}
-        onSelectTracker={handleSelectTracker}
-      />
+  trackers={trackers}
+  activeTracker={activeTracker}
+  onSelectTracker={handleSelectTracker}
+  onEditTracker={handleEditTracker}
+  onDeleteTracker={handleDeleteTracker}
+/>
     </div>
 
     <ExpenseFilters onFilter={handleFilter} />
