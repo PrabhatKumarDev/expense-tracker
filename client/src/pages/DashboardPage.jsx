@@ -21,6 +21,8 @@ import ExpenseFilters from "../components/ExpenseFilters";
 import ThemeToggle from "../components/ThemeToggle";
 import ExportButtons from "../components/ExportButtons";
 import BudgetCard from "../components/BudgetCard";
+import { updateTracker, deleteTracker } from "../api/trackerApi";
+import EditTrackerModal from "../components/EditTrackerModal";
 import {
   clearAuthData,
   getUser,
@@ -48,6 +50,8 @@ function DashboardPage({ theme, setTheme }) {
   const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [editingExpense, setEditingExpense] = useState(null);
   const [editLoading, setEditLoading] = useState(false);
+  const [editingTracker, setEditingTracker] = useState(null);
+const [trackerEditLoading, setTrackerEditLoading] = useState(false);
 
   const handleLogout = () => {
     clearAuthData();
@@ -230,6 +234,66 @@ function DashboardPage({ theme, setTheme }) {
     );
   }
 
+  const handleEditTracker = (tracker) => {
+  setEditingTracker(tracker);
+};
+
+const handleSaveTracker = async (id, formData) => {
+  try {
+    setTrackerEditLoading(true);
+    setError("");
+
+    const data = await updateTracker(id, formData);
+
+    setTrackers((prev) =>
+      prev.map((tracker) => (tracker._id === id ? data.tracker : tracker))
+    );
+
+    if (activeTracker?._id === id) {
+      setActiveTrackerState(data.tracker);
+      setActiveTracker(data.tracker);
+    }
+
+    return true;
+  } catch (err) {
+    setError(err.response?.data?.message || "Failed to update tracker");
+    return false;
+  } finally {
+    setTrackerEditLoading(false);
+  }
+};
+
+const handleDeleteTracker = async (tracker) => {
+  const confirmed = window.confirm(
+    `Delete "${tracker.name}"? This cannot be undone.`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    setError("");
+    await deleteTracker(tracker._id);
+
+    const updatedTrackers = trackers.filter((t) => t._id !== tracker._id);
+    setTrackers(updatedTrackers);
+
+    if (activeTracker?._id === tracker._id) {
+      const nextTracker = updatedTrackers[0] || null;
+      setActiveTrackerState(nextTracker);
+      setActiveTracker(nextTracker);
+
+      if (nextTracker) {
+        fetchExpensesForTracker(nextTracker._id);
+      } else {
+        clearActiveTracker();
+        setExpenses([]);
+      }
+    }
+  } catch (err) {
+    setError(err.response?.data?.message || "Failed to delete tracker");
+  }
+};
+
   const totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0);
   const totalTransactions = expenses.length;
 
@@ -305,10 +369,12 @@ function DashboardPage({ theme, setTheme }) {
   <div>
     <h2 className="mb-4 text-2xl font-semibold">Your Trackers</h2>
     <TrackerList
-      trackers={trackers}
-      activeTracker={activeTracker}
-      onSelectTracker={handleSelectTracker}
-    />
+  trackers={trackers}
+  activeTracker={activeTracker}
+  onSelectTracker={handleSelectTracker}
+  onEditTracker={handleEditTracker}
+  onDeleteTracker={handleDeleteTracker}
+/>
   </div>
 
   <ExpenseFilters onFilter={handleFilter} />
@@ -408,7 +474,13 @@ function DashboardPage({ theme, setTheme }) {
   </div>
 </div>
       </div>
-
+<EditTrackerModal
+  tracker={editingTracker}
+  isOpen={!!editingTracker}
+  onClose={() => setEditingTracker(null)}
+  onSave={handleSaveTracker}
+  loading={trackerEditLoading}
+/>
       <EditExpenseModal
         expense={editingExpense}
         isOpen={!!editingExpense}
@@ -416,7 +488,9 @@ function DashboardPage({ theme, setTheme }) {
         onSave={handleSaveExpense}
         loading={editLoading}
       />
+      
     </div>
+    
   );
 }
 

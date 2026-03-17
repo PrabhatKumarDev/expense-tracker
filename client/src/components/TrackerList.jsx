@@ -5,9 +5,17 @@ import {
   Plane,
   ShoppingCart,
   Heart,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 
-function TrackerList({ trackers, activeTracker, onSelectTracker }) {
+function TrackerList({
+  trackers,
+  activeTracker,
+  onSelectTracker,
+  onEditTracker,
+  onDeleteTracker,
+}) {
   const iconMap = {
     wallet: Wallet,
     home: Home,
@@ -43,6 +51,7 @@ function TrackerList({ trackers, activeTracker, onSelectTracker }) {
       {trackers.map((tracker) => {
         const isActive = activeTracker?._id === tracker._id;
         const Icon = iconMap[tracker.icon] || Wallet;
+
         const colorClass =
           colorMap[tracker.color] ||
           "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900";
@@ -58,13 +67,11 @@ function TrackerList({ trackers, activeTracker, onSelectTracker }) {
                 : "border-zinc-200 bg-white hover:border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700"
             }`}
           >
+            {/* Header */}
             <div className="mb-3 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div className="rounded-xl bg-zinc-100 p-2 dark:bg-zinc-800">
-                  <Icon
-                    size={18}
-                    className="text-zinc-900 dark:text-white"
-                  />
+                  <Icon size={18} className="text-zinc-900 dark:text-white" />
                 </div>
 
                 <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
@@ -79,9 +86,39 @@ function TrackerList({ trackers, activeTracker, onSelectTracker }) {
               )}
             </div>
 
+            {/* Description */}
             <p className="text-sm text-zinc-600 dark:text-zinc-400">
               {tracker.description || "No description"}
             </p>
+
+            {/* Actions */}
+            <div className="mt-4 flex gap-3">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEditTracker(tracker);
+                }}
+                className="flex items-center gap-1 text-sm text-violet-600 hover:text-violet-500 dark:text-violet-400"
+              >
+                <Pencil size={14} />
+                Edit
+              </button>
+
+              {!tracker.isDefault && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDeleteTracker(tracker);
+                  }}
+                  className="flex items-center gap-1 text-sm text-red-600 hover:text-red-500 dark:text-red-400"
+                >
+                  <Trash2 size={14} />
+                  Delete
+                </button>
+              )}
+            </div>
           </button>
         );
       })}
